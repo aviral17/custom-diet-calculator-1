@@ -1,34 +1,37 @@
-# Muscle & Fat Loss Diet Planner
+# Elite Fitness Coach
 
-## Overview
+**Create a Professional Muscle-Building & Fat-Loss Plan Based on User Inputs**
 
-This web application assists users in creating personalized diet plans aimed at muscle gain and fat loss, tailored to individual body types, height, weight, and fitness goals.
-
-## Features
-
-- Select user type: Yourself or friend.
-- Input height and weight.
-- Generate a tailored daily diet plan with meal composition.
-- Includes specific foods, quantities, and supplement recommendations.
-- Fully responsive design using Tailwind CSS.
-- Professionally organized for ease of use.
-
-## Usage
-
-1. Access the application via a web browser.
-2. Choose your body type from the dropdown.
-3. Enter height (cm) and weight (kg).
-4. Click "Generate Diet Plan" to view personalized meal details.
-
-## Notes
-
-- Adjust calorie targets and food choices based on progress.
-- Consult a nutritionist or fitness professional for personalized advice.
+This web application serves as a strict yet motivating trainer, guiding users to achieve their muscle-building and fat-loss goals through precise calorie and macro calculations, tailored diet plans, and supplement recommendations.
 
 ---
 
-## Development
+## Features
 
-This application is a static, single-file HTML page with embedded JavaScript and Tailwind CSS via CDN.
+- **Responsive Design:** Fully mobile compatible for on-the-go access.
+- **User Input Driven:** Customizes plans based on body type, height, weight, diet, and goal.
+- **Detailed Meal Plans:** 5 meals per day with primary and alternate foods and macro breakdowns.
+- **Supplement Recommendations:** Clear stack including pre-workout and daily supplements.
+- **Motivational and Disciplined Tone:** Promotes discipline with clear, strict guidance.
 
-For further customization, modify the `dietData` object in the `<script>` section.
+---
+
+## Usage
+
+1. Enter your details in the form: Body Type, Height, Weight, Diet, and Goal.
+2. Click **Generate Plan**.
+3. Your tailored diet and supplement plan will be displayed below.
+
+## Customization
+
+Advanced users can modify the food options and macro ratios within the `<script>` section of `index.html` as needed.
+
+---
+
+## Note
+
+This is a foundational tool intended for guidance. Always consult a fitness professional for personalized coaching.
+
+# License
+
+This project is licensed under the MIT License.
