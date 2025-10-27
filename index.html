@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muscle & Fat Loss Diet Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Muscle & Fat Loss Diet Planner</h1>
+        <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+            <form id="dietForm" class="space-y-4">
+                <div>
+                    <label class="block mb-1 font-semibold text-gray-700">Select Your Type</label>
+                    <select id="bodyType" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        <option value="myself">I want to build muscle & lose fat</option>
+                        <option value="friend">Friend wants to lose fat & gain muscle</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1 font-semibold text-gray-700">Height (cm)</label>
+                    <input type="number" id="height" class="w-full border border-gray-300 rounded px-3 py-2" placeholder="e.g., 175" required />
+                </div>
+                <div>
+                    <label class="block mb-1 font-semibold text-gray-700">Weight (kg)</label>
+                    <input type="number" id="weight" class="w-full border border-gray-300 rounded px-3 py-2" placeholder="e.g., 70" required />
+                </div>
+                <div>
+                    <button type="button" onclick="calculateDiet()" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700">Generate Diet Plan</button>
+                </div>
+            </form>
+            <div id="result" class="mt-6 hidden">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800" id="dietTitle"></h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full table-auto border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="border border-gray-300 px-2 py-1">Meal</th>
+                                <th class="border border-gray-300 px-2 py-1">Food Items & Contents</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dietTable" class="text-sm text-gray-700"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dietData = {
+            myself: {
+                calorieTarget: 2500,
+                meals: [
+                    {
+                        name: "Breakfast",
+                        foods: [
+                            { name: "Oats", amount: "100g" },
+                            { name: "Eggs", amount: "3" },
+                            { name: "Banana", amount: "1" }
+                        ]
+                    },
+                    {
+                        name: "Post-Workout",
+                        foods: [
+                            { name: "Whey Protein", amount: "1 scoop" },
+                            { name: "Banana", amount: "1" }
+                        ]
+                    },
+                    {
+                        name: "Lunch",
+                        foods: [
+                            { name: "Brown Rice", amount: "150g" },
+                            { name: "Chicken Breast", amount: "200g" },
+                            { name: "Vegetables", amount: "100g" }
+                        ]
+                    },
+                    {
+                        name: "Snack",
+                        foods: [
+                            { name: "Mixed Nuts", amount: "30g" }
+                        ]
+                    },
+                    {
+                        name: "Dinner",
+                        foods: [
+                            { name: "Sweet Potato", amount: "150g" },
+                            { name: "Salmon", amount: "200g" },
+                            { name: "Asparagus", amount: "100g" }
+                        ]
+                    },
+                    {
+                        name: "Before Bed",
+                        foods: [
+                            { name: "Cottage Cheese", amount: "150g" }
+                        ]
+                    }
+                ],
+                supplements: ["Multivitamins", "Citrulline Malate", "BCAA", "Whey Protein"],
+                additionalNotes: "Maintain high protein intake, stay in calorie surplus. Focus on heavy compound lifts with progressive overload."
+            },
+            friend: {
+                calorieTarget: 2000,
+                meals: [
+                    {
+                        name: "Breakfast",
+                        foods: [
+                            { name: "Egg Whites", amount: "6" },
+                            { name: "Oats", amount: "80g" }
+                        ]
+                    },
+                    {
+                        name: "Mid-Morning",
+                        foods: [
+                            { name: "Greek Yogurt", amount: "200g" },
+                            { name: "Berries", amount: "50g" }
+                        ]
+                    },
+                    {
+                        name: "Lunch",
+                        foods: [
+                            { name: "Grilled Chicken", amount: "200g" },
+                            { name: "Broccoli", amount: "150g" },
+                            { name: "Quinoa", amount: "100g" }
+                        ]
+                    },
+                    {
+                        name: "Pre-Workout",
+                        foods: [
+                            { name: "Banana", amount: "1" },
+                            { name: "Pre-Workout Supplement", amount: "per recommended dose" }
+                        ]
+                    },
+                    {
+                        name: "Post-Workout",
+                        foods: [
+                            { name: "Whey Protein", amount: "1 scoop" },
+                            { name: "Sweet Potato", amount: "150g" }
+                        ]
+                    },
+                    {
+                        name: "Dinner",
+                        foods: [
+                            { name: "Tilapia Fish", amount: "200g" },
+                            { name: "Asparagus", amount: "100g" },
+                            { name: "Brown Rice", amount: "100g" }
+                        ]
+                    },
+                    {
+                        name: "Before Sleep",
+                        foods: [
+                            { name: "Cottage Cheese", amount: "150g" }
+                        ]
+                    }
+                ],
+                supplements: ["Multivitamins", "Citrulline Malate", "Multivitamins", "Peptides"],
+                additionalNotes: "Maintain calorie deficit, focus on cardio and resistance training. Include supplements for fat loss and muscle preservation."
+            }
+        };
+
+        function calculateDiet() {
+            const type = document.getElementById('bodyType').value;
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+
+            if (!height || !weight) {
+                alert('Please enter valid height and weight.');
+                return;
+            }
+
+            const userData = dietData[type];
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('dietTitle').innerText = `Diet Plan for ${type === 'myself' ? 'You' : 'Your Friend'} (Target Calories: ${userData.calorieTarget} kcal)`;
+
+            const tbody = document.getElementById('dietTable');
+            tbody.innerHTML = '';
+
+            userData.meals.forEach(meal => {
+                const row = document.createElement('tr');
+                row.className = 'border border-gray-300';
+
+                const mealCell = document.createElement('td');
+                mealCell.className = 'border border-gray-300 px-2 py-1 font-semibold bg-gray-100';
+                mealCell.innerText = meal.name;
+
+                const foodsCell = document.createElement('td');
+                foodsCell.className = 'border border-gray-300 px-2 py-1';
+                let foodsHTML = '';
+                meal.foods.forEach(food => {
+                    foodsHTML += `<div><strong>${food.name}</strong>: ${food.amount}</div>`;
+                });
+                foodsCell.innerHTML = foodsHTML;
+
+                row.appendChild(mealCell);
+                row.appendChild(foodsCell);
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
